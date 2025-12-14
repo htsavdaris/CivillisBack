@@ -160,13 +160,9 @@ namespace CivilisApp.Controllers
             var db = new QueryFactory(connec, new PostgresCompiler());
             var compiler = new PostgresCompiler();
             Query query;
-            if (obj.fldattributeid != 0)
-            {
-                query = db.Query("vwpersonattrarr");
-            } else
-            {
-                query = db.Query("vwpersonattrarr");
-            }
+           
+            query = db.Query("vwpersonattrarr");
+           
            
             if (obj.fldpersonfirstname != "")
             {
