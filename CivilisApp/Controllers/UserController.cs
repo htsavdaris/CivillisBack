@@ -121,7 +121,18 @@ namespace CivilisApp.Controllers
             if (user == null)
                 return StatusCode(StatusCodes.Status403Forbidden, new { message = "Username or password is incorrect" });
 
-            var accessToken = GenerateToken(user,120);
+            if (userDto.rememberMe)
+            {
+                // Implement remember me functionality if needed
+                var accessToken = GenerateToken(user, 60*24*7); // 7 days
+
+            } else
+            {
+                // Implement non-remember me functionality if needed
+                var accessToken = GenerateToken(user, 60*4); // 4 hours
+            }
+
+            
             tblRefreshToken refreshtoken = new tblRefreshToken(user.flduserid);
 
             using (tblRefreshTokenDac dac2 = new tblRefreshTokenDac(connStr, _logger))
