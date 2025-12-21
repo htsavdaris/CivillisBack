@@ -113,6 +113,7 @@ namespace CivilisApp.Controllers
             tblUser user;
             bool resInsert;
             bool resUpdate;
+            string accessToken;
             using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {
                 user = dac.Authenticate(userDto.login, userDto.password);
@@ -124,12 +125,12 @@ namespace CivilisApp.Controllers
             if (userDto.rememberMe)
             {
                 // Implement remember me functionality if needed
-                var accessToken = GenerateToken(user, 60*24*7); // 7 days
+                accessToken = GenerateToken(user, 60*24*7); // 7 days
 
             } else
             {
                 // Implement non-remember me functionality if needed
-                var accessToken = GenerateToken(user, 60*4); // 4 hours
+                accessToken = GenerateToken(user, 60*4); // 4 hours
             }
 
             
