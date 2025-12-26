@@ -84,6 +84,22 @@ namespace CivilisDB.Models
         }
 
 
+        //public List<vwInvitation>? GetAllSortedByUpdated()
+        //{
+        //    _logger.LogTrace(1, "Get All Sorted is called");
+        //    try
+        //    {
+        //        var obj = Connection.Query<vwInvitation>(SqlSelectCommand + " ORDER BY fldupdatedat DESC  ").ToList();
+        //        return obj;
+        //    }
+        //    catch (NpgsqlException ex)
+        //    {
+        //        _logger.LogError(3, typeof(vwInvitation).FullName + " Get: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
+        //        return null;
+        //    }
+        //}
+
+
         ~vwInvitationDac()
         {
             Connection?.Close();

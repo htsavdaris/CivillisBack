@@ -114,6 +114,21 @@ namespace CivilisDB
             }
         }
 
+        public List<TEntity> GetAllSortedDescByUpdate()
+        {
+            try
+            {
+                var obj = Connection.Query<TEntity>(SqlSelectCommand + " ORDER BY fldupdatedat DESC LIMIT 300").ToList();
+                return obj;
+            }
+            catch (NpgsqlException ex)
+            {
+
+                _logger.LogError(3, typeof(TEntity).FullName + " GetAllSortedDescByUpdate: NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                return null;
+            }
+        }
+
 
         public List<TEntity> GetForSQL(string SQL)
         {

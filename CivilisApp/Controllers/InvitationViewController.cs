@@ -37,7 +37,7 @@ namespace CivilisApp.Controllers
             {
                 try
                 {
-                    objList = dac.GetAllSortedDesc();
+                    objList = dac.GetAllSortedDescByUpdate();
                     _logger.LogTrace(1, "DAC GetAllSortedDesc Called");
                     if (objList == null)
                     {
