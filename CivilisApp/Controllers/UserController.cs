@@ -25,7 +25,7 @@ namespace CivilisApp.Controllers
         private readonly ILogger<UserController> _logger;
         private DbConnectionStringResolver _dbConnectionStringResolver;
         private string connStr;
-
+        private const int TokenDurationInMinutes = 120;
         public UserController(IConfiguration config, ILogger<UserController> logger)
         {
             this.configuration = config;
@@ -130,15 +130,23 @@ namespace CivilisApp.Controllers
             } else
             {
                 // Implement non-remember me functionality if needed
-                accessToken = GenerateToken(user, 60*4); // 4 hours
+                accessToken = GenerateToken(user, TokenDurationInMinutes); // 4 hours
             }
 
             
             tblRefreshToken refreshtoken = new tblRefreshToken(user.flduserid);
-
+            if (userDto.rememberMe)
+            { 
+                refreshtoken.fldexpires = DateTime.Now.AddMinutes(60*24*7); 
+            }
+             else
+            {
+                refreshtoken.fldexpires = DateTime.Now.AddMinutes(60 * 4);
+            }
             using (tblRefreshTokenDac dac2 = new tblRefreshTokenDac(connStr, _logger))
             {
                 var res1 = dac2.Get(refreshtoken.flduserid);
+
                 if (res1 == null)
                     resInsert = dac2.Insert(refreshtoken);
                 else
@@ -225,7 +233,7 @@ namespace CivilisApp.Controllers
                     user = dac.Get(dbrefreshToken.flduserid);
                 }
 
-                var newAccessToken = GenerateToken(user, 120);
+                var newAccessToken = GenerateToken(user, TokenDurationInMinutes);
                 return Ok(new
                 {
                     userid = user.flduserid,
@@ -235,10 +243,6 @@ namespace CivilisApp.Controllers
                     personid = user.fldpersonid
                 });
             }
-
-
-
-
 
             //var principal = GetPrincipalFromExpiredToken(accessToken);
             //var username = principal.Identity.Name;
@@ -293,7 +297,7 @@ namespace CivilisApp.Controllers
                     user = dac.Get(dbrefreshToken.flduserid);
                 }
             }
-            var newAccessToken = GenerateToken(user, 120);
+            var newAccessToken = GenerateToken(user, TokenDurationInMinutes);
             return Ok(new
             {
                 userid = user.flduserid,
@@ -409,7 +413,7 @@ namespace CivilisApp.Controllers
                 audience: "http://localhost:4200",
                 claims: claims,
                 //expires: DateTime.Now.AddMinutes(durationInMinutes),
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.Now.AddMinutes(durationInMinutes),
                 signingCredentials: signinCredentials 
                 );
 

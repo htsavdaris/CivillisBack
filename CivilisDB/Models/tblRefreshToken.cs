@@ -26,14 +26,14 @@ namespace CivilisDB.Models
             this.flduserid = 0;
             this.fldrefreshtoken = new Guid();
             this.fldissued = DateTime.Now;
-            this.fldexpires = DateTime.Now + new TimeSpan(8, 0, 0);
+            this.fldexpires = DateTime.Now + new TimeSpan(4, 0, 0);
         }
 
         public tblRefreshToken(long userid) {
             this.flduserid = userid;
             this.fldrefreshtoken = Guid.NewGuid();
             this.fldissued = DateTime.Now;
-            this.fldexpires = DateTime.Now + new TimeSpan(8, 0, 0);
+            this.fldexpires = DateTime.Now + new TimeSpan(4, 0, 0);
         }
 
         //private static string GenerateRefreshToken()

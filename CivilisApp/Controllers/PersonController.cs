@@ -92,7 +92,7 @@ namespace CivilisApp.Controllers
             }
         }
 
-
+        // This is the basic search from the Person Dialog and the table
         [HttpPost("search1"), Authorize]
         public ActionResult<List<tblPerson>> GetSearch1([FromBody] SearchPerson1 obj)
         {
@@ -148,22 +148,27 @@ namespace CivilisApp.Controllers
 
         }
 
-        //This is the search with AttributeID included
+        //This is the search with the Person Advanced Search
         [HttpPost("search2"), Authorize]
-        public ActionResult<List<vwPersonAttrArr>> GetSearch2([FromBody] SearchPerson1 obj)
+        public ActionResult<List<SearchPersonResults>> GetSearch2([FromBody] SearchPerson1 obj)
         {
             _logger.LogTrace(1, "tblPerson - GetSearch2 is called");
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
-            List<vwPersonAttrArr> objList;
+            List<SearchPersonResults> objList;
             var connec = new NpgsqlConnection(connStr);
 
             var db = new QueryFactory(connec, new PostgresCompiler());
             var compiler = new PostgresCompiler();
             Query query;
            
-            query = db.Query("vwpersonattrarr");
-           
-           
+            if (obj.fldattributeid != 0)
+                query = db.Query("vwpersonattributeall");
+            else
+            {
+                query = db.Query("tblperson");
+            }
+            query.Select("fldpersonid", "fldpersonlastname", "fldpersonfirstname", "fldpersonmobile", "fldpersonemail", "fldcity");
+
             if (obj.fldpersonfirstname != "")
             {
                 query.WhereLike("fldpersonfirstname", obj.fldpersonfirstname );
@@ -191,7 +196,7 @@ namespace CivilisApp.Controllers
             try
             {
 
-                objList = query.Get<vwPersonAttrArr>().ToList();
+                objList = query.Get<SearchPersonResults>().ToList();
                 _logger.LogTrace(1, "DAC GetAll Called");
                 if (objList == null)
                 {
