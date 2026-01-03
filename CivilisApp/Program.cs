@@ -45,7 +45,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = "http://localhost:4200",
         ValidAudience = "http://localhost:4200",
-        IssuerSigningKey = new SymmetricSecurityKey(secret)
+        IssuerSigningKey = new SymmetricSecurityKey(secret),
+        ClockSkew = TimeSpan.Zero
     };
 });
 

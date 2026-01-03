@@ -25,7 +25,8 @@ namespace CivilisApp.Controllers
         private readonly ILogger<UserController> _logger;
         private DbConnectionStringResolver _dbConnectionStringResolver;
         private string connStr;
-        private const int TokenDurationInMinutes = 120;
+        private const int AccessTokenDurationInMinutes = 1;
+        private const int AccessTokenDurationInMinutesRememberMe = 1;
         public UserController(IConfiguration config, ILogger<UserController> logger)
         {
             this.configuration = config;
@@ -125,12 +126,12 @@ namespace CivilisApp.Controllers
             if (userDto.rememberMe)
             {
                 // Implement remember me functionality if needed
-                accessToken = GenerateToken(user, 60*24*7); // 7 days
+                accessToken = GenerateToken(user, AccessTokenDurationInMinutesRememberMe); // 7 days
 
             } else
             {
                 // Implement non-remember me functionality if needed
-                accessToken = GenerateToken(user, TokenDurationInMinutes); // 4 hours
+                accessToken = GenerateToken(user, AccessTokenDurationInMinutes); // 4 hours
             }
 
             
@@ -233,7 +234,7 @@ namespace CivilisApp.Controllers
                     user = dac.Get(dbrefreshToken.flduserid);
                 }
 
-                var newAccessToken = GenerateToken(user, TokenDurationInMinutes);
+                var newAccessToken = GenerateToken(user, AccessTokenDurationInMinutes);
                 return Ok(new
                 {
                     userid = user.flduserid,
@@ -297,7 +298,7 @@ namespace CivilisApp.Controllers
                     user = dac.Get(dbrefreshToken.flduserid);
                 }
             }
-            var newAccessToken = GenerateToken(user, TokenDurationInMinutes);
+            var newAccessToken = GenerateToken(user, AccessTokenDurationInMinutes);
             return Ok(new
             {
                 userid = user.flduserid,
@@ -413,7 +414,7 @@ namespace CivilisApp.Controllers
                 audience: "http://localhost:4200",
                 claims: claims,
                 //expires: DateTime.Now.AddMinutes(durationInMinutes),
-                expires: DateTime.Now.AddMinutes(durationInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(durationInMinutes),
                 signingCredentials: signinCredentials 
                 );
 
