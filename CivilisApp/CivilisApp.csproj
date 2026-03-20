@@ -9,14 +9,23 @@
     <ApplicationInsightsResourceId>/subscriptions/500d130a-96cf-4ac4-a54c-6c54d5873048/resourceGroups/Civil/providers/microsoft.insights/components/CivilAppInsights</ApplicationInsightsResourceId>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Scripts\0001_2026_03_20.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="appsettings.Production.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\0001_2026_03_20.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.14.1" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.20.1" />
     <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="dbup-core" Version="6.1.1" />
+    <PackageReference Include="dbup-postgresql" Version="7.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.0.10" />
+    <PackageReference Include="Npgsql" Version="10.0.2" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
