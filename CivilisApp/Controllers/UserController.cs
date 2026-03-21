@@ -2,6 +2,8 @@
 using CivilisApp.Models;
 using CivilisDB;
 using CivilisDB.Models;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -25,8 +27,8 @@ namespace CivilisApp.Controllers
         private readonly ILogger<UserController> _logger;
         private DbConnectionStringResolver _dbConnectionStringResolver;
         private string connStr;
-        private const int AccessTokenDurationInMinutes = 1;
-        private const int AccessTokenDurationInMinutesRememberMe = 1;
+        private const int AccessTokenDurationInMinutes = 60*8;
+        private const int AccessTokenDurationInMinutesRememberMe = 60*24;
         public UserController(IConfiguration config, ILogger<UserController> logger)
         {
             this.configuration = config;
@@ -112,6 +114,8 @@ namespace CivilisApp.Controllers
         {
             //this.connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblUser user;
+            List<vwUserRole> objList3;
+            List<string> roles = new List<string>();
             bool resInsert;
             bool resUpdate;
             string accessToken;
@@ -153,6 +157,16 @@ namespace CivilisApp.Controllers
                 else
                     resUpdate = dac2.Update(refreshtoken);
             }
+
+            using (vwUserRoleDac dac3 = new vwUserRoleDac(connStr, _logger))
+            {
+                objList3 = dac3.GetAllForUserId(user.flduserid);
+            }
+            foreach (var role in objList3)
+            {
+                roles.Add(role.fldroledesc);
+            }
+
             //For every login cleart the log directory
             Utils.FileOperations.DeleteFileOlderThanXDays(Path.Combine(Directory.GetCurrentDirectory(),"logs"), 10);
 
@@ -163,7 +177,8 @@ namespace CivilisApp.Controllers
                 login = user.fldlogin,
                 accesstoken = accessToken,
                 refreshtoken = refreshtoken.fldrefreshtoken,
-                personid = user.fldpersonid
+                personid = user.fldpersonid,
+                roles = roles
             }); 
         }
 
@@ -218,6 +233,8 @@ namespace CivilisApp.Controllers
         {
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblUser user;
+            List<vwUserRole> objList;
+            List<string> roles = new List<string>();
             tblRefreshToken dbrefreshToken;
             using (tblRefreshTokenDac dac2 = new tblRefreshTokenDac(connStr, _logger))
             {
@@ -234,6 +251,15 @@ namespace CivilisApp.Controllers
                     user = dac.Get(dbrefreshToken.flduserid);
                 }
 
+                using (vwUserRoleDac dac2 = new vwUserRoleDac(connStr, _logger))
+                {
+                    objList = dac2.GetAllForUserId(user.flduserid);
+                }
+                foreach (var role in objList)
+                {
+                    roles.Add(role.fldroledesc);
+                }
+
                 var newAccessToken = GenerateToken(user, AccessTokenDurationInMinutes);
                 return Ok(new
                 {
@@ -241,7 +267,8 @@ namespace CivilisApp.Controllers
                     login = user.fldlogin,
                     accesstoken = newAccessToken,
                     refreshtoken = refreshApi.refreshtoken,
-                    personid = user.fldpersonid
+                    personid = user.fldpersonid,
+                    roles = roles
                 });
             }
 
@@ -284,6 +311,8 @@ namespace CivilisApp.Controllers
         {
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblUser user;
+            List<vwUserRole> objList;
+            List<string> roles = new List<string>(); //  Initialize the roles variable
             tblRefreshToken dbrefreshToken;
             using (tblRefreshTokenDac dac2 = new tblRefreshTokenDac(connStr, _logger))
             {
@@ -297,6 +326,15 @@ namespace CivilisApp.Controllers
                 {
                     user = dac.Get(dbrefreshToken.flduserid);
                 }
+                using (vwUserRoleDac dac2 = new vwUserRoleDac(connStr, _logger))
+                {
+                    objList = dac2.GetAllForUserId(user.flduserid);
+                }
+                foreach (var role in objList)
+                {
+                    roles.Add(role.fldroledesc);
+                }
+
             }
             var newAccessToken = GenerateToken(user, AccessTokenDurationInMinutes);
             return Ok(new
@@ -305,7 +343,8 @@ namespace CivilisApp.Controllers
                 login = user.fldlogin,
                 accesstoken = newAccessToken,
                 refreshtoken = refreshApi.refreshtoken,
-                personid = user.fldpersonid
+                personid = user.fldpersonid,
+                roles = roles
             });
 
 

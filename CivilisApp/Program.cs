@@ -2,6 +2,7 @@ using CivilisApp.Hubs;
 using CivilisApp.Interfaces;
 using CivilisApp.Services;
 using CivilisApp.Utils;
+using DbUp;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +13,13 @@ using static System.Net.WebRequestMethods;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DBConnection");
+RunMigrationsforProd(connectionString);
 
+if (!builder.Environment.IsDevelopment())
+{
+
+}
 // Add services to the container.
 var jwtOptions = builder.Configuration
     .GetSection("JwtOptions")
@@ -138,3 +145,43 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<CivilisSignalrHub>("/signalrhub");
 app.Run();
+
+
+static void RunMigrationsforProd(string? ConnectionString)
+{
+    EnsureDatabase.For.PostgresqlDatabase(ConnectionString);
+
+    var upgrader = DeployChanges.To
+        .PostgresqlDatabase(ConnectionString)
+        .WithScriptsFromFileSystem("/Scripts")
+        //.WithScriptsEmbeddedInAssembly(System.Reflection.Assembly.GetExecutingAssembly())
+        .LogToConsole()
+        .Build();
+
+    var result = upgrader.PerformUpgrade();
+
+    if (!result.Successful)
+    {
+        throw new Exception(result.Error.ToString());
+    }
+
+}
+
+static void RunMigrationsforDev(string? ConnectionString)
+{
+    EnsureDatabase.For.PostgresqlDatabase(ConnectionString);
+
+    var upgrader = DeployChanges.To
+        .PostgresqlDatabase(ConnectionString)
+        .WithScriptsEmbeddedInAssembly(System.Reflection.Assembly.GetExecutingAssembly())
+        .LogToConsole()
+        .Build();
+
+    var result = upgrader.PerformUpgrade();
+
+    if (!result.Successful)
+    {
+        throw new Exception(result.Error.ToString());
+    }
+
+}

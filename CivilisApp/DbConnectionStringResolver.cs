@@ -25,19 +25,19 @@ namespace CivilisApp
                     {
                         if (use_docker == "False")
                         {
-                            return configuration["ConnectionStrings:LocalDBConnection"]; 
+                            return configuration["ConnectionStrings:DBConnection"]; 
                         }
                         else
                         {
-                            return configuration["ConnectionStrings:LocalDBConnection"]; 
+                            return configuration["ConnectionStrings:DBConnection"]; 
                         }
                     }                                                                                                                     
                 case "Production":
                     //string connstring = Environment.GetEnvironmentVariable("proddbconnectionstring");
-                    string connstring = configuration["ConnectionStrings:AzureDBConnection"];
+                    string connstring = configuration["ConnectionStrings:DBConnection"];
                     return connstring;
                 default:
-                    return configuration.GetConnectionString("ConnectionStrings:LocalDBConnection");
+                    return configuration.GetConnectionString("ConnectionStrings:DBConnection");
             }
         }
 
