@@ -153,8 +153,8 @@ static void RunMigrationsforProd(string? ConnectionString)
 
     var upgrader = DeployChanges.To
         .PostgresqlDatabase(ConnectionString)
-        .WithScriptsFromFileSystem("/Scripts")
-        //.WithScriptsEmbeddedInAssembly(System.Reflection.Assembly.GetExecutingAssembly())
+        //.WithScriptsFromFileSystem("/Scripts")
+        .WithScriptsEmbeddedInAssembly(System.Reflection.Assembly.GetExecutingAssembly())
         .LogToConsole()
         .Build();
 
