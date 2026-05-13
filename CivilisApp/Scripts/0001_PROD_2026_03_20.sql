@@ -491,14 +491,14 @@ CREATE TABLE public.tblinvitation (
     fldhost character varying(255),
     fldentityid bigint,
     fldhostpersonid bigint,
-    fldcreatedby bigint,
-    fldupdatedby bigint,
-    fldcreatedat timestamp without time zone,
-    fldupdatedat timestamp without time zone,
     fldgopersonid bigint,
     fldcomments text,
     fldreplied bigint DEFAULT 0,
-    flddatetime date
+    flddatetime timestamp without time zone,
+    fldcreatedby bigint,
+    fldupdatedby bigint,
+    fldcreatedat timestamp without time zone,
+    fldupdatedat timestamp without time zone    
 );
 
 

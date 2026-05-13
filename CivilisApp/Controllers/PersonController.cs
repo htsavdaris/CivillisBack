@@ -63,7 +63,7 @@ namespace CivilisApp.Controllers
         }
 
         // GET api/<PersonController>
-        [HttpGet, Authorize]
+        [HttpGet, AllowAnonymous]
         public ActionResult<List<tblPerson>> Get()
         {
             _logger.LogTrace(1, "tblPerson - Get All is called");

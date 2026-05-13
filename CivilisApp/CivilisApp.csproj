@@ -16,6 +16,9 @@
     <_ContentIncludedByDefault Remove="appsettings.Production.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\0002_PROD_2026_05_14.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Scripts\0001_PROD_2026_03_20.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
