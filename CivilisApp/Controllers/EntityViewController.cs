@@ -26,7 +26,7 @@ namespace CivilisApp.Controllers
 
 
 
-        [HttpGet, Authorize]
+        [HttpGet, AllowAnonymous]
         public ActionResult<List<vwEntity>> Get()
         {
             _logger.LogTrace(1, "vwEntityController - Get All Sorted is called");
