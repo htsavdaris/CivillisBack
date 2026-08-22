@@ -30,7 +30,7 @@ namespace CivilisApp.Controllers
         }
 
         
-        [HttpGet, AllowAnonymous]
+        [HttpGet, Authorize]
         public ActionResult<List<tblEntity>> Get()
         {
             _logger.LogTrace(1, "tblEntity - Get All is called");
