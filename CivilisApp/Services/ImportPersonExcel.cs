@@ -3,7 +3,6 @@ using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Presentation;
 using System.IO;
 using CivilisDB.Models;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace CivilisApp.Services

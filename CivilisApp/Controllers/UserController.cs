@@ -4,7 +4,7 @@ using CivilisDB;
 using CivilisDB.Models;
 using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Office2010.Excel;
-using Microsoft.ApplicationInsights.Extensibility.Implementation;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+
 
 
 namespace CivilisApp.Controllers
