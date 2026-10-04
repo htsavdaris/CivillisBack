@@ -52,7 +52,7 @@ namespace CivilisApp.Controllers
             }
             catch (Exception ex)
             {
-                message = "File Upload Failed";
+                message = $"File Upload Error: {ex.Message}";
             }
             return Content(message);
 
