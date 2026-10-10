@@ -49,7 +49,7 @@ public class vwPersonAttributeDac : DapperBaseRepository<vwPersonAttribute>
         _logger.LogTrace(1, "GetAllForId is called");
         try
         {
-            var obj = Connection.Query<vwPersonAttribute>(SqlSelectCommand + " WHERE fldpersonid = @personid ", new { personid = personid }).ToList();
+            var obj = Connection.Query<vwPersonAttribute>(SqlSelectCommand + " WHERE fldpersonid = @personid ORDER BY " + pkeyName, new { personid = personid }).ToList();
             return obj;
         }
         catch (NpgsqlException ex)
@@ -64,7 +64,7 @@ public class vwPersonAttributeDac : DapperBaseRepository<vwPersonAttribute>
         _logger.LogTrace(1, "GetAllForId is called");
         try
         {
-            var obj = Connection.Query<vwPersonAttribute>(SqlSelectCommand + " WHERE fldattributeid = @attrId ", new { attrId = attrId }).ToList();
+            var obj = Connection.Query<vwPersonAttribute>(SqlSelectCommand + " WHERE fldattributeid = @attrId ORDER BY " + pkeyName, new { attrId = attrId }).ToList();
             return obj;
         }
         catch (NpgsqlException ex)
