@@ -175,6 +175,8 @@ namespace CivilisApp.Controllers
             {
                 userid = user.flduserid,
                 login = user.fldlogin,
+                firstname = user.fldfirstname,
+                lastname = user.fldlastname,
                 accesstoken = accessToken,
                 refreshtoken = refreshtoken.fldrefreshtoken,
                 personid = user.fldpersonid,
