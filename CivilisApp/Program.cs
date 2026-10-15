@@ -14,16 +14,25 @@ using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DBConnection");
-RunMigrationsforProd(connectionString);
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    RunMigrationsforProd(connectionString);
+}
 
 if (!builder.Environment.IsDevelopment())
 {
 
 }
+
 // Add services to the container.
 var jwtOptions = builder.Configuration
     .GetSection("JwtOptions")
     .Get<JwtOptions>();
+
+if (jwtOptions is null && builder.Environment.IsEnvironment("Testing"))
+{
+    jwtOptions = new JwtOptions(string.Empty, string.Empty, string.Empty, 3600, string.Empty);
+}
 
 builder.Services.AddSingleton(jwtOptions);
 builder.Services.AddSignalR();
@@ -184,4 +193,8 @@ static void RunMigrationsforDev(string? ConnectionString)
         throw new Exception(result.Error.ToString());
     }
 
+}
+
+public partial class Program
+{
 }

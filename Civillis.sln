@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilisApp", "CivilisApp\Ci
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilisDB", "CivilisDB\CivilisDB.csproj", "{5DC11434-8038-421E-BAE9-373F75892B36}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilisApp.ApiTests", "CivilisApp.ApiTests\CivilisApp.ApiTests.csproj", "{7B7051C9-5B05-4CB8-8B63-8E77D821159E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5DC11434-8038-421E-BAE9-373F75892B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DC11434-8038-421E-BAE9-373F75892B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DC11434-8038-421E-BAE9-373F75892B36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B7051C9-5B05-4CB8-8B63-8E77D821159E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B7051C9-5B05-4CB8-8B63-8E77D821159E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B7051C9-5B05-4CB8-8B63-8E77D821159E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B7051C9-5B05-4CB8-8B63-8E77D821159E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
