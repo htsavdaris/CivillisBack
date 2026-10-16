@@ -90,7 +90,7 @@ namespace CivilisApp.Controllers
 
 
         [HttpGet("status/{id}"), Authorize]
-        public ActionResult<List<vwCase>> GetByStatusandDate(long statusid)
+        public ActionResult<List<vwCase>> GetByStatusandDate(long id)
         {
             _logger.LogTrace(1, "vwCase - GetByStatusandDate one is called");
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
@@ -99,7 +99,7 @@ namespace CivilisApp.Controllers
             {
                 try
                 {
-                    obj = dac.GetByStatusByDate(statusid);
+                    obj = dac.GetByStatusByDate(id);
                     if (obj != null)
                         return Ok(obj);
                     else

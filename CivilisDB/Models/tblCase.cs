@@ -72,7 +72,7 @@ namespace CivilisDB.Models
             //   statusid = 1 => Closed Case
             try
             {
-                var obj = Connection.Query<tblCase>(SqlSelectCommand + " WHERE fldcasestatusid = @statusid ORDER BY createdat DESC ", new { statusid = statusid }).AsList();
+                var obj = Connection.Query<tblCase>(SqlSelectCommand + " WHERE fldcasestatusid = @statusid ORDER BY fldcreatedat DESC ", new { statusid = statusid }).AsList();
                 return obj;
             }
             catch (NpgsqlException ex)
@@ -89,7 +89,7 @@ namespace CivilisDB.Models
             //   statusid = 1 => Closed Case
             try
             {
-                var obj = Connection.Query<tblCase>(SqlSelectCommand + " WHERE fldmanagerid = @managerid ORDER BY createdat DESC ", new { managerid = managerid }).AsList();
+                var obj = Connection.Query<tblCase>(SqlSelectCommand + " WHERE fldmanagerid = @managerid ORDER BY fldcreatedat DESC ", new { managerid = managerid }).AsList();
                 return obj;
             }
             catch (NpgsqlException ex)

@@ -11,7 +11,7 @@ using static Dapper.SqlMapper;
 namespace CivilisDB.Models
 {
 
-    [Table("vwentityentitytype")]
+    [Table("vwentity")]
     public partial class vwEntity : BaseEntity
     {
         [Column, Key]
@@ -57,6 +57,19 @@ namespace CivilisDB.Models
 
         public vwEntityDac(IDbConnection connection, ILogger logger) : base(tableName, pkeyName, connection, logger)
         {
+        }
+
+        public vwEntity Get(long id)
+        {
+            try
+            {
+                return Connection.QueryFirstOrDefault<vwEntity>(SqlSelectCommand + " WHERE fldentityid = @id", new { id });
+            }
+            catch (NpgsqlException ex)
+            {
+                _logger.LogError(3, typeof(vwEntity).FullName + " Get: Npgsql Exception Code:" + ex.ErrorCode + " Message:" + ex.Message);
+                return null;
+            }
         }
 
         public List<vwEntity> GetAllSortedByID()

@@ -14,7 +14,9 @@ using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DBConnection");
-if (!builder.Environment.IsEnvironment("Testing"))
+var runMigrations = !builder.Environment.IsEnvironment("Testing")
+    || builder.Configuration.GetValue<bool>("Testing:RunMigrations");
+if (runMigrations)
 {
     RunMigrationsforProd(connectionString);
 }
